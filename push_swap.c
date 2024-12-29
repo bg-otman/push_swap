@@ -6,7 +6,7 @@
 /*   By: obouizi <obouizi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 10:46:15 by obouizi           #+#    #+#             */
-/*   Updated: 2024/12/29 14:27:26 by obouizi          ###   ########.fr       */
+/*   Updated: 2024/12/29 16:24:16 by obouizi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,19 @@ int main(int ac, char *av[])
 	t_list *stack_a;
 	t_list *stack_b;
 	
+	(void)ac;
 	if (ac <= 2)
 		exit(0);
+		
+	char *arr[] = {"name", "99", "100", "200", "300", "500", NULL};
 	stack_a = create_lst(av);
-	stack_b = create_lst(av);
-	// swap_a(stack_a);
-	// swap_b(stack_b);
+	stack_b = create_lst(arr);
+	swap_a(stack_a);
+	swap_b(stack_b);
 	// swap_ab(stack_a, stack_b);
+	// push_b(&stack_b, &stack_a);
+	// push_a(&stack_a, &stack_b);
+	rotate_ab(&stack_a, &stack_b);
 	ft_printf("------stack_a------\n");
 	while (stack_a)
 	{
