@@ -6,7 +6,7 @@
 /*   By: obouizi <obouizi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 10:46:15 by obouizi           #+#    #+#             */
-/*   Updated: 2024/12/29 16:24:16 by obouizi          ###   ########.fr       */
+/*   Updated: 2025/01/02 11:51:59 by obouizi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,37 +37,96 @@ t_list *create_lst(char *av[])
 	return (lst);
 }
 
+void print_lst(t_list *stack)
+{
+	while (stack)
+	{
+		ft_printf("|%d|\n", stack->num);
+		stack = stack->next;
+	}
+}
+int get_min_element(t_list **stack)
+{
+	int min;
+	t_list *temp;
+
+	min = (*stack)->num;
+	temp = (*stack)->next;
+	while (temp)
+	{
+		if ((temp->num) < min)
+			min = temp->num;
+		temp = temp->next;
+	}
+	return (min);
+}
+
+int is_sorted(t_list *stack)
+{
+	t_list *temp;
+
+	temp = stack;
+	while (temp && temp->next)
+	{
+		if (temp->num > temp->next->num)
+			return (0);
+		temp = temp->next;
+	}
+	return (1);
+}
+
+void sort(t_list **stack_a, t_list **stack_b)
+{
+	int min;
+	t_list *temp;
+	t_list *new_head;
+
+	if (is_sorted(*stack_a))
+			return ;
+	temp = (*stack_a);
+	while (temp->next)
+	{
+		min = get_min_element(stack_a);
+		new_head = temp->next;
+		if (temp->num == min)
+		{
+			push_b(stack_b, stack_a);
+			temp = new_head;
+		}
+		else if (temp->next && ((temp->next->num) == min))
+		{
+			swap_a(*stack_a);
+			if (is_sorted(*stack_a))
+				break ;
+			push_b(stack_b, stack_a);
+			temp = new_head;
+		}
+		else
+		{
+			reverse_rotate_a(stack_a);
+			temp = (*stack_a);
+		}
+		if (is_sorted(*stack_a))
+			break ;
+	}
+	while (*stack_b)
+		push_a(stack_a, stack_b);
+	
+}
+
 int main(int ac, char *av[])
 {
 	t_list *stack_a;
 	t_list *stack_b;
 	
-	(void)ac;
 	if (ac <= 2)
 		exit(0);
-		
-	char *arr[] = {"name", "99", "100", "200", "300", "500", NULL};
+	stack_b = NULL;
 	stack_a = create_lst(av);
-	stack_b = create_lst(arr);
-	swap_a(stack_a);
-	swap_b(stack_b);
-	// swap_ab(stack_a, stack_b);
-	// push_b(&stack_b, &stack_a);
-	// push_a(&stack_a, &stack_b);
-	rotate_ab(&stack_a, &stack_b);
+	sort(&stack_a, &stack_b);
 	ft_printf("------stack_a------\n");
-	while (stack_a)
-	{
-		ft_printf("|%d|\n", stack_a->num);
-		stack_a = stack_a->next;
-	}
+	print_lst(stack_a);
 	ft_printf("------stack_b------\n");
-	while (stack_b)
-	{
-		ft_printf("|%d|\n", stack_b->num);
-		stack_b = stack_b->next;
-	}
+	print_lst(stack_b);
 	return (0);
 }
-
-// 2 1 3 6 5 8
