@@ -6,7 +6,7 @@
 /*   By: obouizi <obouizi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 10:00:03 by obouizi           #+#    #+#             */
-/*   Updated: 2024/12/28 12:36:06 by obouizi          ###   ########.fr       */
+/*   Updated: 2025/01/02 15:40:35 by obouizi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_list	*ft_lstnew(int num);
 void	ft_lstadd_back(t_list **lst, t_list *new);
 void	ft_lstadd_front(t_list **lst, t_list *new);
 t_list	*ft_lstlast(t_list *lst);
+int ft_lstsize(t_list *lst);
 void	ft_lstclear(t_list **lst);
 int		ft_atoi(const char *str);
 // int		ft_isalpha(int c);

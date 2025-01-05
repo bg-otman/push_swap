@@ -6,7 +6,7 @@
 /*   By: obouizi <obouizi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 10:46:15 by obouizi           #+#    #+#             */
-/*   Updated: 2025/01/02 11:51:59 by obouizi          ###   ########.fr       */
+/*   Updated: 2025/01/04 15:03:17 by obouizi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,43 @@ void print_lst(t_list *stack)
 		stack = stack->next;
 	}
 }
-int get_min_element(t_list **stack)
+// void split_list(t_list **stack_a, t_list **stack_b)
+// {
+// 	int lst_size;
+// 	int i;
+	
+// 	i = 0;
+// 	lst_size = ft_lstsize(*stack_a) / 2;
+// 	while (i < lst_size)
+// 	{
+// 		push_b(stack_b, stack_a);
+// 		i++;
+// 	}
+// }
+
+int get_index(t_list *stack, int num)
+{
+	t_list *temp;
+	int index;
+
+	temp = stack;
+	index = 0;
+	while (temp)
+	{
+		if (num == (temp->num))
+			return (index);
+		temp = temp->next;
+		index++;
+	}
+	return (index);
+}
+int get_min_element(t_list *stack)
 {
 	int min;
 	t_list *temp;
 
-	min = (*stack)->num;
-	temp = (*stack)->next;
+	min = stack->num;
+	temp = stack->next;
 	while (temp)
 	{
 		if ((temp->num) < min)
@@ -59,6 +89,21 @@ int get_min_element(t_list **stack)
 		temp = temp->next;
 	}
 	return (min);
+}
+int get_max_element(t_list **stack)
+{
+	int max;
+	t_list *temp;
+
+	max = (*stack)->num;
+	temp = (*stack)->next;
+	while (temp)
+	{
+		if ((temp->num) > max)
+			max = temp->num;
+		temp = temp->next;
+	}
+	return (max);
 }
 
 int is_sorted(t_list *stack)
@@ -75,51 +120,60 @@ int is_sorted(t_list *stack)
 	return (1);
 }
 
-void sort(t_list **stack_a, t_list **stack_b)
+
+void sort_ascending(t_list **stack_a, t_list **stack_b)
 {
 	int min;
+	int min_index;
 	t_list *temp;
-	t_list *new_head;
-
-	if (is_sorted(*stack_a))
-			return ;
+	int lst_size;
+	
 	temp = (*stack_a);
+	lst_size = ft_lstsize(*stack_a);
 	while (temp->next)
 	{
-		min = get_min_element(stack_a);
-		new_head = temp->next;
+		min = get_min_element(temp);
+		min_index = get_index(temp, min);
 		if (temp->num == min)
 		{
 			push_b(stack_b, stack_a);
-			temp = new_head;
+			lst_size--;
 		}
 		else if (temp->next && ((temp->next->num) == min))
-		{
 			swap_a(*stack_a);
-			if (is_sorted(*stack_a))
-				break ;
-			push_b(stack_b, stack_a);
-			temp = new_head;
-		}
-		else
-		{
+		else if (lst_size - min_index < min_index)
 			reverse_rotate_a(stack_a);
-			temp = (*stack_a);
-		}
+		else
+			rotate_a(stack_a);
+			
 		if (is_sorted(*stack_a))
 			break ;
+		temp = (*stack_a);
 	}
+}
+
+// void sort_descending(t_list **stack_b)
+// {
+// }
+
+void sort(t_list **stack_a, t_list **stack_b)
+{
+	if (is_sorted(*stack_a))
+			return ;
+	// split_list(stack_a, stack_b);
+	sort_ascending(stack_a, stack_b);
 	while (*stack_b)
 		push_a(stack_a, stack_b);
 	
 }
+
 
 int main(int ac, char *av[])
 {
 	t_list *stack_a;
 	t_list *stack_b;
 	
-	if (ac <= 2)
+	if (ac <= 3)
 		exit(0);
 	stack_b = NULL;
 	stack_a = create_lst(av);
