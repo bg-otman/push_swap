@@ -45,19 +45,6 @@ void print_lst(t_list *stack)
 		stack = stack->next;
 	}
 }
-// void split_list(t_list **stack_a, t_list **stack_b)
-// {
-// 	int lst_size;
-// 	int i;
-	
-// 	i = 0;
-// 	lst_size = ft_lstsize(*stack_a) / 2;
-// 	while (i < lst_size)
-// 	{
-// 		push_b(stack_b, stack_a);
-// 		i++;
-// 	}
-// }
 
 int get_index(t_list *stack, int num)
 {
@@ -90,13 +77,13 @@ int get_min_element(t_list *stack)
 	}
 	return (min);
 }
-int get_max_element(t_list **stack)
+int get_max_element(t_list *stack)
 {
 	int max;
 	t_list *temp;
 
-	max = (*stack)->num;
-	temp = (*stack)->next;
+	max = stack->num;
+	temp = stack->next;
 	while (temp)
 	{
 		if ((temp->num) > max)
@@ -120,52 +107,166 @@ int is_sorted(t_list *stack)
 	return (1);
 }
 
-
-void sort_ascending(t_list **stack_a, t_list **stack_b)
+void sort_three(t_list **stack_a)
 {
-	int min;
-	int min_index;
-	t_list *temp;
-	int lst_size;
-	
-	temp = (*stack_a);
-	lst_size = ft_lstsize(*stack_a);
-	while (temp->next)
-	{
-		min = get_min_element(temp);
-		min_index = get_index(temp, min);
-		if (temp->num == min)
-		{
-			push_b(stack_b, stack_a);
-			lst_size--;
-		}
-		else if (temp->next && ((temp->next->num) == min))
-			swap_a(*stack_a);
-		else if (lst_size - min_index < min_index)
-			reverse_rotate_a(stack_a);
-		else
-			rotate_a(stack_a);
-			
-		if (is_sorted(*stack_a))
-			break ;
-		temp = (*stack_a);
-	}
+    int first, second, third;
+
+    if (!(*stack_a) || !(*stack_a)->next || !(*stack_a)->next->next)
+        return;
+
+    first = (*stack_a)->num;
+    second = (*stack_a)->next->num;
+    third = (*stack_a)->next->next->num;
+
+    if (first > second && first > third)
+        rotate_a(stack_a);
+    if ((*stack_a)->num > (*stack_a)->next->num)
+        swap_a(*stack_a);
+    if ((*stack_a)->next->num > (*stack_a)->next->next->num)
+    {
+        reverse_rotate_a(stack_a);
+        if ((*stack_a)->num > (*stack_a)->next->num)
+            swap_a(*stack_a);
+    }
 }
 
-// void sort_descending(t_list **stack_b)
-// {
-// }
+int get_in_range(t_list *stack_a, int range)
+{
+    t_list *temp;
+    int i;
+
+    temp = stack_a;
+    i = 0;
+    while (temp)
+    {
+        if (temp->num <= range)
+            return (i);
+        temp = temp->next;
+        i++;
+    }
+    return (-1);
+}
+
+
+int get_right_position(int num, t_list *stack)
+{
+    t_list *temp;
+    int i;
+
+    temp = stack;
+    i = 0;
+
+    while (temp && temp->next)
+    {
+        if (temp->num > num && temp->next->num < num)
+            return (i + 1);
+        temp = temp->next;
+        i++;
+    }
+    return (i);
+}
+
+
+void insert(t_list **stack_a, t_list **stack_b)
+{
+    int i, j, lst_size;
+
+    if (*stack_b)
+    {
+        lst_size = ft_lstsize(*stack_b);
+
+        if ((*stack_a)->num > (*stack_b)->num)
+        {
+            push_b(stack_b, stack_a);
+        }
+        else
+        {
+            i = get_right_position((*stack_a)->num, *stack_b);
+            j = 0;
+
+            if (i > lst_size / 2)
+            {
+                while (lst_size - i > 0)
+                {
+                    reverse_rotate_b(stack_b);
+                    j++;
+                    i++;
+                }
+				// push_b(stack_b, stack_a);
+				// while (j--)
+				//     rotate_b(stack_b);
+            }
+            else
+            {
+                while (i--)
+                {
+                    rotate_b(stack_b);
+                    j++;
+                }
+				// push_b(stack_b, stack_a);
+				// while (j--)
+				//     reverse_rotate_b(stack_b);
+            }
+
+            push_b(stack_b, stack_a);
+            while (j--)
+                reverse_rotate_b(stack_b);
+        }
+    }
+    else
+    {
+        push_b(stack_b, stack_a);
+    }
+}
+
+void push_chunks(t_list **stack_a, t_list **stack_b)
+{
+    int min, max, range, index;
+    int lst_size;
+
+    lst_size = ft_lstsize(*stack_a);
+    min = get_min_element(*stack_a);
+    max = get_max_element(*stack_a);
+    range = (max - min) / 5;
+
+    while (lst_size > 3)
+    {
+        index = get_in_range(*stack_a, range);
+        if (index < 0)
+        {
+            range += (max - min) / 5;
+            if (range > max)
+                range = max;
+            index = get_in_range(*stack_a, range);
+        }
+        if (index > lst_size / 2)
+        {
+            while (index++ < lst_size)
+                reverse_rotate_a(stack_a);
+        }
+        else
+        {
+            while (index-- > 0)
+                rotate_a(stack_a);
+        }
+        insert(stack_a, stack_b);
+        lst_size--;
+        if (is_sorted(*stack_a))
+            break;
+    }
+    if (lst_size == 3)
+        sort_three(stack_a);
+}
 
 void sort(t_list **stack_a, t_list **stack_b)
 {
-	if (is_sorted(*stack_a))
-			return ;
-	// split_list(stack_a, stack_b);
-	sort_ascending(stack_a, stack_b);
-	while (*stack_b)
-		push_a(stack_a, stack_b);
-	
+    if (is_sorted(*stack_a))
+        return;
+    push_chunks(stack_a, stack_b);
+    while (*stack_b)
+        push_a(stack_a, stack_b);
 }
+
 
 
 int main(int ac, char *av[])
