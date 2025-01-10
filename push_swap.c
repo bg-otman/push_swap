@@ -244,6 +244,24 @@ int get_chunk_size(int dataset_size)
         return dataset_size / 15;
 }
 
+void rr_or_rotate_a(t_list **stack_a, t_list **stack_b)
+{
+	if (((*stack_b) && (*stack_b)->next) && (*stack_b)->num < (*stack_b)->next->num)
+		rotate_ab(stack_a, stack_b);
+	else
+		rotate_a(stack_a);
+}
+
+void rrr_or_reverse_a(t_list **stack_a, t_list **stack_b)
+{
+	t_list *last;
+
+	last = ft_lstlast(*stack_b);
+	if ((*stack_b) && last->num > (*stack_b)->num)
+		reverse_rotate_ab(stack_a, stack_b);
+	else
+		reverse_rotate_a(stack_a);
+}
 
 void push_chunks(t_list **stack_a, t_list **stack_b)
 {
@@ -265,10 +283,10 @@ void push_chunks(t_list **stack_a, t_list **stack_b)
         }
         if (index > lst_size / 2)
             while (index++ < lst_size)
-                reverse_rotate_a(stack_a);
+                rrr_or_reverse_a(stack_a, stack_b);
         else
 			while (index-- > 0)
-				rotate_a(stack_a);
+				rr_or_rotate_a(stack_a, stack_b);
 		push_b(stack_b, stack_a);
 		lst_size--;
     }
@@ -324,7 +342,7 @@ int main(int ac, char *av[])
 	t_list *stack_a;
 	t_list *stack_b;
 	
-	if (ac < 3)
+	if (ac <= 2)
 		exit(0);
 	stack_b = NULL;
 	stack_a = create_lst(av);
