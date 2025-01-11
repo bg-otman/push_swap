@@ -6,7 +6,7 @@
 /*   By: obouizi <obouizi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 11:24:48 by obouizi           #+#    #+#             */
-/*   Updated: 2025/01/02 09:13:45 by obouizi          ###   ########.fr       */
+/*   Updated: 2025/01/11 17:42:23 by obouizi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void rotate_ab(t_list **stack_a, t_list **stack_b);
 void reverse_rotate_a(t_list **stack_a);
 void reverse_rotate_b(t_list **stack_b);
 void reverse_rotate_ab(t_list **stack_a, t_list **stack_b);
+int *sorted_version(t_list *stack_a);
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: obouizi <obouizi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 10:46:15 by obouizi           #+#    #+#             */
-/*   Updated: 2025/01/11 11:52:55 by obouizi          ###   ########.fr       */
+/*   Updated: 2025/01/11 17:52:16 by obouizi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,43 +103,6 @@ int is_sorted_rev(t_list *stack)
 	}
 	return (1);
 }
-// void insert(t_list **stack_a, t_list **stack_b)
-// {
-//     int i, j, lst_size;
-
-//     if (!(*stack_b) || (*stack_a)->num > (*stack_b)->num)
-// 	{
-// 		push_b(stack_b, stack_a);
-// 		return ;
-// 	}
-// 	lst_size = ft_lstsize(*stack_b);
-// 	i = get_right_position((*stack_a)->num, *stack_b);
-// 	j = 0;
-// 	if (i > lst_size / 2)
-// 	{
-// 		while (lst_size - i > 0)
-// 		{
-// 			reverse_rotate_b(stack_b);
-// 			j++;
-// 			i++;
-// 		}
-// 		push_b(stack_b, stack_a);
-// 		while (j--)
-// 			rotate_b(stack_b);
-// 	}
-// 	else
-// 	{
-// 		while (i--)
-// 		{
-// 			rotate_b(stack_b);
-// 			j++;
-// 		}
-// 		push_b(stack_b, stack_a);
-// 		while (j--)
-// 			reverse_rotate_b(stack_b);
-// 	}
-// }
-
 int get_right_position(int num, t_list *stack)
 {
 	t_list *temp;
@@ -157,6 +120,33 @@ int get_right_position(int num, t_list *stack)
 	}
 	return (i);
 }
+void insert(t_list **stack_a, t_list **stack_b)
+{
+    int i, lst_size;
+
+    if (!(*stack_b))
+	{
+		push_b(stack_b, stack_a);
+		return ;
+	}
+	lst_size = ft_lstsize(*stack_b);
+	i = get_right_position((*stack_a)->num, *stack_b);
+	if (i > lst_size / 2)
+	{
+		while (lst_size - i > 0)
+		{
+			reverse_rotate_b(stack_b);
+			i++;
+		}
+	}
+	else
+	{
+		while (i--)
+			rotate_b(stack_b);
+	}
+	push_b(stack_b, stack_a);
+}
+
 
 int is_sorted(t_list *stack)
 {
@@ -198,7 +188,6 @@ int get_index(t_list *stack, int num)
 		temp = temp->next;
 		index++;
 	}
-	
 	return (index);
 }
 
@@ -263,6 +252,28 @@ void rrr_or_reverse_a(t_list **stack_a, t_list **stack_b)
 		reverse_rotate_a(stack_a);
 }
 
+void ss_or_swap_b(t_list *stack_a, t_list *stack_b)
+{
+	if ((stack_a && stack_a->next) && stack_a->num > stack_a->next->num)
+		swap_ab(stack_a, stack_b);
+	else
+		swap_b(stack_b);
+}
+
+void push_and_sort_b(t_list **stack_a, t_list **stack_b)
+{	
+	if (!(*stack_b))
+	{
+		push_b(stack_b, stack_a);
+		return ;
+	}
+	if ((*stack_b)->next && (*stack_b)->num < (*stack_b)->next->num)
+		ss_or_swap_b(*stack_a, *stack_b);
+	push_b(stack_b, stack_a);
+}
+
+
+
 void push_chunks(t_list **stack_a, t_list **stack_b)
 {
     int range;
@@ -272,7 +283,7 @@ void push_chunks(t_list **stack_a, t_list **stack_b)
 
     lst_size = ft_lstsize(*stack_a);
 	chunk_size = get_chunk_size(lst_size);
-	range = get_min_element(*stack_a) + chunk_size;
+	range = chunk_size;
     while (lst_size)
     {
         index = get_in_range(*stack_a, range);
@@ -281,13 +292,14 @@ void push_chunks(t_list **stack_a, t_list **stack_b)
             range += chunk_size;
 			continue ;
         }
-        if (index > lst_size / 2)
+        else if (index > lst_size / 2)
             while (index++ < lst_size)
                 rrr_or_reverse_a(stack_a, stack_b);
         else
 			while (index-- > 0)
 				rr_or_rotate_a(stack_a, stack_b);
-		push_b(stack_b, stack_a);
+		// push_b(stack_b, stack_a);
+		push_and_sort_b(stack_a, stack_b);
 		lst_size--;
 		range++;
     }
@@ -351,6 +363,15 @@ int main(int ac, char *av[])
 	// print_lst(stack_a);
 	// ft_printf("------stack_b------\n");
 	// print_lst(stack_b);
-	
+
+	// int *arr, size, i = 0;
+	// size = ft_lstsize(stack_a);
+	// arr = sorted_version(stack_a);
+	// ft_printf("\n\n\n");
+	// while (i < size)
+	// {
+	// 	ft_printf("%d ", arr[i]);
+	// 	i++;
+	// }
 	return (0);
 }
