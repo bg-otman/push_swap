@@ -6,7 +6,7 @@
 /*   By: obouizi <obouizi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 10:46:15 by obouizi           #+#    #+#             */
-/*   Updated: 2025/01/09 21:30:14 by obouizi          ###   ########.fr       */
+/*   Updated: 2025/01/11 11:52:55 by obouizi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,16 +232,16 @@ int get_in_range(t_list *stack_a, int range)
 	return (second_half);
 }
 
-int get_chunk_size(int dataset_size)
+int get_chunk_size(int lst_size)
 {
-    if (dataset_size <= 10)
-        return dataset_size;
-    else if (dataset_size <= 50)
-        return dataset_size / 5;
-    else if (dataset_size <= 100)
-        return dataset_size / 10;
+    if (lst_size <= 10)
+        return lst_size;
+    else if (lst_size <= 50)
+        return lst_size / 5;
+    else if (lst_size <= 100)
+        return lst_size / 10;
     else
-        return dataset_size / 15;
+        return lst_size / 15;
 }
 
 void rr_or_rotate_a(t_list **stack_a, t_list **stack_b)
@@ -272,7 +272,7 @@ void push_chunks(t_list **stack_a, t_list **stack_b)
 
     lst_size = ft_lstsize(*stack_a);
 	chunk_size = get_chunk_size(lst_size);
-    range = get_min_element(*stack_a) + chunk_size;
+	range = get_min_element(*stack_a) + chunk_size;
     while (lst_size)
     {
         index = get_in_range(*stack_a, range);
@@ -289,6 +289,7 @@ void push_chunks(t_list **stack_a, t_list **stack_b)
 				rr_or_rotate_a(stack_a, stack_b);
 		push_b(stack_b, stack_a);
 		lst_size--;
+		range++;
     }
 }
 
@@ -336,7 +337,6 @@ void sort(t_list **stack_a, t_list **stack_b)
 	}
 }
 
-
 int main(int ac, char *av[])
 {
 	t_list *stack_a;
@@ -351,5 +351,6 @@ int main(int ac, char *av[])
 	// print_lst(stack_a);
 	// ft_printf("------stack_b------\n");
 	// print_lst(stack_b);
+	
 	return (0);
 }
