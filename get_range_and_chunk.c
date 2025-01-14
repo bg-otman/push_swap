@@ -6,7 +6,7 @@
 /*   By: obouizi <obouizi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 11:37:56 by obouizi           #+#    #+#             */
-/*   Updated: 2025/01/14 12:02:32 by obouizi          ###   ########.fr       */
+/*   Updated: 2025/01/14 18:39:02 by obouizi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,15 @@
 int get_chunk_size(int lst_size)
 {
     if (lst_size <= 10)
-        return 5;
+        return (5);
     else if (lst_size <= 50)
-        return 10;
+        return (10);
     else if (lst_size <= 100)
-        return 20;
+        return (20);
+    else if (lst_size <= 500)
+        return (30);
     else
-        return 40;
+        return (45);
 }
 
 int get_in_range(t_list *stack_a, int range)

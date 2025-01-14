@@ -6,37 +6,38 @@
 /*   By: obouizi <obouizi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 10:46:15 by obouizi           #+#    #+#             */
-/*   Updated: 2025/01/14 11:48:28 by obouizi          ###   ########.fr       */
+/*   Updated: 2025/01/14 18:15:42 by obouizi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void bring_to_top(t_list **stack, int index)
+void bring_to_top(t_list **stack_a, int first, int last)
 {
-    int size = ft_lstsize(*stack);
+	int i;
+	int lst_size;
+	t_list *temp;
 
-    if (index <= size / 2)
-    {
-        while (index-- > 0)
-            rotate_a(stack);
-    }
-    else
-    {
-        index = size - index;
-        while (index-- > 0)
-            reverse_rotate_a(stack);
-    }
+	i = 0;
+	lst_size = ft_lstsize(*stack_a);
+	temp = *stack_a;
+	while (temp && !(temp->num >= first && temp->num <= last))
+	{
+		temp = temp->next;
+		i++;
+	}
+	if (i > lst_size / 2)
+		reverse_rotate_a(stack_a);
+	else
+		rotate_a(stack_a);
 }
 
-void push_chunks(t_list **stack_a, t_list **stack_b)
+void push_chunks(t_list **stack_a, t_list **stack_b, int *sorted_arr)
 {
-	int *sorted_arr;
 	int i;
 	int lst_size;
 	int chunk_size;
-
-	sorted_arr = sorted_version(*stack_a);
+	
 	i = 0;
 	lst_size = ft_lstsize(*stack_a);
 	chunk_size = get_chunk_size(lst_size);
@@ -44,18 +45,22 @@ void push_chunks(t_list **stack_a, t_list **stack_b)
     {
         if (i + chunk_size > lst_size)
             chunk_size = lst_size - i;
-        if ((*stack_a)->num <= sorted_arr[i])
+        if ((*stack_a)->num < sorted_arr[i])
 		{
-			push_and_sort_b(stack_a, stack_b);
-			rotate_b(stack_b);
+			push_b(stack_b, stack_a);
+			if ((*stack_b)->next)
+				rotate_b(stack_b);
+			i++;
 		}
-		else if ((*stack_a)->num > sorted_arr[i] && (*stack_a)->num <= sorted_arr[i + chunk_size - 1])
+		else if ((*stack_a)->num >= sorted_arr[i] && (*stack_a)->num <= sorted_arr[i + chunk_size - 1])
 		{
-			push_and_sort_b(stack_a, stack_b);
+			push_b(stack_b, stack_a);
+			if ((*stack_b)->next && (*stack_b)->num < (*stack_b)->next->num)
+				swap_b(*stack_b);
 			i++;
 		}
 		else
-			bring_to_top(stack_a, get_in_range(*stack_a, sorted_arr[i + chunk_size - 1]));
+			bring_to_top(stack_a, sorted_arr[i], sorted_arr[i + chunk_size - 1]);
     }
 	free(sorted_arr);
 }
@@ -89,9 +94,13 @@ void final_sort(t_list **stack_a, t_list **stack_b)
 void sort(t_list **stack_a, t_list **stack_b)
 {
 	int lst_size;
+	int *sorted_arr;
 
 	if (is_sorted(*stack_a))
 			return ;
+	sorted_arr = sorted_version(*stack_a);
+	if (!sorted_arr)
+		return ;
 	lst_size = ft_lstsize(*stack_a);
 	if (lst_size == 2)
 		swap_a(*stack_a);
@@ -99,7 +108,7 @@ void sort(t_list **stack_a, t_list **stack_b)
 		sort_three(stack_a);
 	else
 	{
-		push_chunks(stack_a, stack_b);
+		push_chunks(stack_a, stack_b, sorted_arr);
 		final_sort(stack_a, stack_b);
 	}
 }
@@ -122,10 +131,16 @@ int main(int ac, char *av[])
 		exit(0);
 	stack_b = NULL;
 	stack_a = create_lst(av);
+	if (!stack_a)
+		exit(1);
 	sort(&stack_a, &stack_b);
+	
 	// ft_printf("------stack_a------\n");
 	// print_lst(stack_a);
 	// ft_printf("------stack_b------\n");
 	// print_lst(stack_b);
+	
+	ft_lstclear(&stack_a);
+	ft_lstclear(&stack_b);
 	return (0);
 }
