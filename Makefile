@@ -3,7 +3,8 @@ SRCS = push_swap.c printf/ft_putchar.c printf/ft_check_specifier.c printf/ft_str
 		printf/ft_putadresse.c \
 		libft/ft_lstnew.c libft/ft_lstlast.c libft/ft_lstadd_back.c libft/ft_lstadd_front.c libft/ft_lstclear.c \
 		libft/ft_atoi.c libft/ft_lstsize.c \
-		swap.c push.c rotate.c reverse_rotate.c sorted_version.c
+		create_lst.c swap.c push.c rotate.c reverse_rotate.c sorted_version.c sort_three.c push_and_sort_b.c \
+		get_range_and_chunk.c get_max_and_index.c is_sorted.c
 
 OBJECTS=$(SRCS:.c=.o)
 CC = cc

@@ -6,7 +6,7 @@
 /*   By: obouizi <obouizi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 15:30:37 by obouizi           #+#    #+#             */
-/*   Updated: 2025/01/02 09:13:36 by obouizi          ###   ########.fr       */
+/*   Updated: 2025/01/14 11:32:40 by obouizi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,12 @@ void	swap_ab(t_list *stack_a, t_list *stack_b)
 	ft_swap(stack_a);
 	ft_swap(stack_b);
 	ft_printf("ss\n");
+}
+
+void ss_or_swap_b(t_list *stack_a, t_list *stack_b)
+{
+	if ((stack_a && stack_a->next) && stack_a->num > stack_a->next->num)
+		swap_ab(stack_a, stack_b);
+	else
+		swap_b(stack_b);
 }
