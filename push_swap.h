@@ -6,7 +6,7 @@
 /*   By: obouizi <obouizi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 11:24:48 by obouizi           #+#    #+#             */
-/*   Updated: 2025/01/14 11:44:39 by obouizi          ###   ########.fr       */
+/*   Updated: 2025/01/14 19:00:33 by obouizi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	reverse_rotate_b(t_list **stack_b);
 void	reverse_rotate_ab(t_list **stack_a, t_list **stack_b);
 int		*sorted_version(t_list *stack_a);
 void	sort_three(t_list **stack);
+void    sort_five(t_list **stack_a, t_list **stack_b);
 void	push_and_sort_b(t_list **stack_a, t_list **stack_b);
 int		get_in_range(t_list *stack_a, int range);
 int		get_max_element(t_list *stack);

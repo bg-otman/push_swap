@@ -6,7 +6,7 @@
 /*   By: obouizi <obouizi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 10:46:15 by obouizi           #+#    #+#             */
-/*   Updated: 2025/01/14 18:15:42 by obouizi          ###   ########.fr       */
+/*   Updated: 2025/01/14 19:01:09 by obouizi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ void sort(t_list **stack_a, t_list **stack_b)
 		swap_a(*stack_a);
 	else if (lst_size == 3)
 		sort_three(stack_a);
+	else if (lst_size == 5)
+		sort_five(stack_a, stack_b);
 	else
 	{
 		push_chunks(stack_a, stack_b, sorted_arr);
