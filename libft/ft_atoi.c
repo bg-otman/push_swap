@@ -6,15 +6,15 @@
 /*   By: obouizi <obouizi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 12:35:37 by obouizi           #+#    #+#             */
-/*   Updated: 2024/12/28 14:33:20 by obouizi          ###   ########.fr       */
+/*   Updated: 2025/01/15 21:26:58 by obouizi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_atoi(const char *str)
+long	ft_atoi(const char *str)
 {
-	int	i;
-	int	nb;
-	int	sign;
+	int		i;
+	long	nb;
+	int		sign;
 
 	nb = 0;
 	i = 0;

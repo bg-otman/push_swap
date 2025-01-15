@@ -6,7 +6,7 @@
 /*   By: obouizi <obouizi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 15:33:23 by obouizi           #+#    #+#             */
-/*   Updated: 2024/12/30 18:03:16 by obouizi          ###   ########.fr       */
+/*   Updated: 2025/01/15 22:29:49 by obouizi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 void pop(t_list **stack)
 {
     t_list *new_head;
-
+    
+    if (!stack || !(*stack))
+        return ;
     new_head = (*stack)->next;
     free((*stack));
     (*stack) = new_head;
@@ -37,12 +39,16 @@ void    ft_push(t_list **stack_one, t_list **stack_two)
 
 void push_a(t_list **stack_a, t_list **stack_b)
 {
+    if (!stack_b || !(*stack_b))
+        return ;
     ft_push(stack_a, stack_b);
     ft_printf("pa\n");
 }
 
 void push_b(t_list **stack_b, t_list **stack_a)
 {
+    if (!stack_a || !(*stack_a))
+        return ;
     ft_push(stack_b, stack_a);
     ft_printf("pb\n");
 }

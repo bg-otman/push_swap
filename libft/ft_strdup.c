@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obouizi <obouizi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: obouizi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/28 09:58:43 by obouizi           #+#    #+#             */
-/*   Updated: 2025/01/15 17:47:52 by obouizi          ###   ########.fr       */
+/*   Created: 2024/10/26 11:54:27 by obouizi           #+#    #+#             */
+/*   Updated: 2024/11/04 18:31:15 by obouizi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list *ft_lstnew(int num)
+char	*ft_strdup(const char *s1)
 {
-    t_list *new_node;
+	char	*ptr;
+	size_t	i;
+	size_t	s_len;
 
-    new_node = malloc(sizeof(t_list));
-    if (!new_node)
-        return (NULL);
-    new_node->num = num;
-    new_node->next = NULL;
-    return (new_node);
+	i = 0;
+	s_len = ft_strlen(s1);
+	ptr = (char *) malloc(s_len + 1);
+	if (ptr == NULL)
+		return (NULL);
+	while (i < s_len)
+	{
+		ptr[i] = s1[i];
+		i++;
+	}
+	ptr[s_len] = '\0';
+	return (ptr);
 }

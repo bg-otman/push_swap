@@ -6,38 +6,22 @@
 /*   By: obouizi <obouizi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 10:46:15 by obouizi           #+#    #+#             */
-/*   Updated: 2025/01/14 19:01:09 by obouizi          ###   ########.fr       */
+/*   Updated: 2025/01/15 22:30:33 by obouizi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void bring_to_top(t_list **stack_a, int first, int last)
+void push_and_swap(t_list **stack_a, t_list **stack_b)
 {
-	int i;
-	int lst_size;
-	t_list *temp;
-
-	i = 0;
-	lst_size = ft_lstsize(*stack_a);
-	temp = *stack_a;
-	while (temp && !(temp->num >= first && temp->num <= last))
-	{
-		temp = temp->next;
-		i++;
-	}
-	if (i > lst_size / 2)
-		reverse_rotate_a(stack_a);
-	else
-		rotate_a(stack_a);
+	push_b(stack_b, stack_a);
+	if ((*stack_b)->next && (*stack_b)->num < (*stack_b)->next->num)
+		swap_b(*stack_b);
 }
 
 void push_chunks(t_list **stack_a, t_list **stack_b, int *sorted_arr)
 {
-	int i;
-	int lst_size;
-	int chunk_size;
-	
+	int (i), (lst_size), (chunk_size);
 	i = 0;
 	lst_size = ft_lstsize(*stack_a);
 	chunk_size = get_chunk_size(lst_size);
@@ -52,17 +36,15 @@ void push_chunks(t_list **stack_a, t_list **stack_b, int *sorted_arr)
 				rotate_b(stack_b);
 			i++;
 		}
-		else if ((*stack_a)->num >= sorted_arr[i] && (*stack_a)->num <= sorted_arr[i + chunk_size - 1])
+		else if ((*stack_a)->num >= sorted_arr[i]
+			&& (*stack_a)->num <= sorted_arr[i + chunk_size - 1])
 		{
-			push_b(stack_b, stack_a);
-			if ((*stack_b)->next && (*stack_b)->num < (*stack_b)->next->num)
-				swap_b(*stack_b);
+			push_and_swap(stack_a, stack_b);
 			i++;
 		}
 		else
 			bring_to_top(stack_a, sorted_arr[i], sorted_arr[i + chunk_size - 1]);
     }
-	free(sorted_arr);
 }
 
 void final_sort(t_list **stack_a, t_list **stack_b)
@@ -95,26 +77,28 @@ void sort(t_list **stack_a, t_list **stack_b)
 {
 	int lst_size;
 	int *sorted_arr;
-
-	if (is_sorted(*stack_a))
+	
+	if (ft_lstsize(*stack_a) <= 1)
 			return ;
 	sorted_arr = sorted_version(*stack_a);
 	if (!sorted_arr)
 		return ;
 	lst_size = ft_lstsize(*stack_a);
+	check_double_and_sorted(sorted_arr, lst_size, stack_a);
 	if (lst_size == 2)
 		swap_a(*stack_a);
 	else if (lst_size == 3)
 		sort_three(stack_a);
-	else if (lst_size == 5)
+	else if (lst_size <= 5)
 		sort_five(stack_a, stack_b);
 	else
 	{
 		push_chunks(stack_a, stack_b, sorted_arr);
 		final_sort(stack_a, stack_b);
 	}
+	free(sorted_arr);
 }
-
+// remove it -----
 void print_lst(t_list *stack)
 {
 	while (stack)
@@ -123,25 +107,32 @@ void print_lst(t_list *stack)
 		stack = stack->next;
 	}
 }
+// -----
 
 int main(int ac, char *av[])
 {
-	t_list *stack_a;
-	t_list *stack_b;
+	t_list	*stack_a;
+	t_list	*stack_b;
+	char	*joined_arg;
+	char	**arr;
 	
-	if (ac <= 2)
-		exit(0);
+	if (ac < 2)
+		return (0);
+	handle_empty_str(av);
+	joined_arg = process_input(av);	
+	if (!joined_arg)
+		return (1);
+	arr = ft_split(joined_arg, ' ');
+	free(joined_arg);
+	if (!arr)
+		return (1);
+	parse_argument(arr);
 	stack_b = NULL;
-	stack_a = create_lst(av);
+	stack_a = create_lst(arr);
+	free_arr(arr);
 	if (!stack_a)
-		exit(1);
-	sort(&stack_a, &stack_b);
-	
-	// ft_printf("------stack_a------\n");
-	// print_lst(stack_a);
-	// ft_printf("------stack_b------\n");
-	// print_lst(stack_b);
-	
+		return (1);
+	sort(&stack_a, &stack_b);	
 	ft_lstclear(&stack_a);
 	ft_lstclear(&stack_b);
 	return (0);

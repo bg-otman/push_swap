@@ -6,7 +6,7 @@
 /*   By: obouizi <obouizi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 11:33:48 by obouizi           #+#    #+#             */
-/*   Updated: 2025/01/15 10:32:02 by obouizi          ###   ########.fr       */
+/*   Updated: 2025/01/15 22:27:34 by obouizi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int get_min_element(t_list *stack)
 {
 	int min;
-
+	
 	min = stack->num;
 	stack = stack->next;
 	while (stack)
@@ -61,3 +61,4 @@ void sort_five(t_list **stack_a, t_list **stack_b)
 	push_a(stack_a, stack_b);
 	push_a(stack_a, stack_b);
 }
+
