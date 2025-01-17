@@ -6,7 +6,7 @@
 /*   By: obouizi <obouizi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 21:10:10 by obouizi           #+#    #+#             */
-/*   Updated: 2025/01/15 21:30:56 by obouizi          ###   ########.fr       */
+/*   Updated: 2025/01/16 15:54:08 by obouizi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,44 @@
 
 int	check_overflow(char *str)
 {
-	long nb;
-
-	nb = ft_atoi(str);
-	if (nb > 2147483647)
+	int i;
+	int sign;
+	long long result;
+	
+	i = 0;
+	sign = 1;
+	result = 0;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			sign = -1;
+		i++;
+	}
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (1);
+		result = result * 10 + (str[i] - '0');
+		if (result > 2147483647 ||  result < -2147483648)
+			return (1);
+		i++;
+	}
+	if (i == 0 || (i == 1 && (str[0] == '-' || str[0] == '+')))
 		return (1);
 	return (0);
 }
 
 void parse_argument(char *arr[])
 {
-	int i;
-	int j;
+	int i = 0;
 
-	i = 0;
 	while (arr[i])
 	{
-		j = 0;
-		while (arr[i][j])
+		if (check_overflow(arr[i]))
 		{
-			if ((((arr[i][j] == '-' || arr[i][j] == '+')  && !ft_isdigit(arr[i][j + 1]))
-				|| ((!ft_isdigit(arr[i][j]) && !(arr[i][j] == '-' || arr[i][j] == '+')) && arr[i][j] != ' '))
-				|| check_overflow(arr[i]))
-			{
-				ft_putstr_fd("Error\n", 2);
-				free_arr(arr);
-				exit(1);
-			}
-			j++;
+			ft_putstr_fd("Error\n", 2);
+			free_arr(arr);
+			exit(1);
 		}
 		i++;
 	}

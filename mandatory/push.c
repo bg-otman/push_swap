@@ -6,7 +6,7 @@
 /*   By: obouizi <obouizi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 15:33:23 by obouizi           #+#    #+#             */
-/*   Updated: 2025/01/15 22:29:49 by obouizi          ###   ########.fr       */
+/*   Updated: 2025/01/16 11:44:49 by obouizi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void push_a(t_list **stack_a, t_list **stack_b)
     if (!stack_b || !(*stack_b))
         return ;
     ft_push(stack_a, stack_b);
-    ft_printf("pa\n");
+    ft_putstr_fd("pa\n", 1);
 }
 
 void push_b(t_list **stack_b, t_list **stack_a)
@@ -50,5 +50,5 @@ void push_b(t_list **stack_b, t_list **stack_a)
     if (!stack_a || !(*stack_a))
         return ;
     ft_push(stack_b, stack_a);
-    ft_printf("pb\n");
+    ft_putstr_fd("pb\n", 1);
 }

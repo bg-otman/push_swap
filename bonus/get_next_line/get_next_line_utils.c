@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obouizi <obouizi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/01 14:18:27 by obouizi           #+#    #+#             */
-/*   Updated: 2024/12/05 20:49:55 by obouizi          ###   ########.fr       */
+/*   Created: 2024/11/19 16:00:27 by obouizi           #+#    #+#             */
+/*   Updated: 2025/01/16 12:52:34 by obouizi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "get_next_line.h"
 
-size_t	ft_strlen(const char *s)
+int	check_newline(char *buffer)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
-	if (!s)
+	while (buffer[i])
 	{
-		return (i);
-	}
-	while (s[i])
-	{
+		if (buffer[i] == '\n')
+			return (++i);
 		i++;
 	}
-	return (i);
+	return (-1);
 }

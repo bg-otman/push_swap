@@ -1,41 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_double.c                                     :+:      :+:    :+:   */
+/*   create_lst.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obouizi <obouizi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/15 21:20:26 by obouizi           #+#    #+#             */
-/*   Updated: 2025/01/15 22:02:48 by obouizi          ###   ########.fr       */
+/*   Created: 2025/01/14 11:31:01 by obouizi           #+#    #+#             */
+/*   Updated: 2025/01/16 15:11:33 by obouizi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void clean(int *sorted_arr, t_list **stack_a)
+t_list *create_lst(char *arr[])
 {
-	free(sorted_arr);
-	ft_lstclear(stack_a);
-	ft_putstr_fd("Error\n", 2);
-	exit(1);
-}
-
-void check_double_and_sorted(int *sorted_arr, int size, t_list **stack_a)
-{
+	t_list *lst;
+	t_list *new_node;
 	int i;
-	int j;
-
+	
 	i = 0;
-	j = 1;
-	if (is_sorted(*stack_a))
+	if (!arr[i])
 	{
-		free(sorted_arr);
-		ft_lstclear(stack_a);
-		exit(0);
+		ft_putstr_fd("Error\n", 2);
+		exit(1);
 	}
-	while (size--)
+	lst = ft_lstnew(ft_atoi(arr[i++]));
+	if (!lst)
+		return (NULL);
+	new_node = lst;
+	while (arr[i])
 	{
-		if (sorted_arr[i++] == sorted_arr[j++])
-			clean(sorted_arr, stack_a);
+		new_node->next = ft_lstnew(ft_atoi(arr[i++]));
+		if (!new_node->next)
+		{
+			ft_lstclear(&lst);
+			return (NULL);
+		}
+		new_node = new_node->next;
 	}
+	return (lst);
 }

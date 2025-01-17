@@ -6,7 +6,7 @@
 /*   By: obouizi <obouizi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 10:46:15 by obouizi           #+#    #+#             */
-/*   Updated: 2025/01/15 22:30:33 by obouizi          ###   ########.fr       */
+/*   Updated: 2025/01/16 12:35:07 by obouizi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,43 +97,4 @@ void sort(t_list **stack_a, t_list **stack_b)
 		final_sort(stack_a, stack_b);
 	}
 	free(sorted_arr);
-}
-// remove it -----
-void print_lst(t_list *stack)
-{
-	while (stack)
-	{
-		ft_printf("|%d|\n", stack->num);
-		stack = stack->next;
-	}
-}
-// -----
-
-int main(int ac, char *av[])
-{
-	t_list	*stack_a;
-	t_list	*stack_b;
-	char	*joined_arg;
-	char	**arr;
-	
-	if (ac < 2)
-		return (0);
-	handle_empty_str(av);
-	joined_arg = process_input(av);	
-	if (!joined_arg)
-		return (1);
-	arr = ft_split(joined_arg, ' ');
-	free(joined_arg);
-	if (!arr)
-		return (1);
-	parse_argument(arr);
-	stack_b = NULL;
-	stack_a = create_lst(arr);
-	free_arr(arr);
-	if (!stack_a)
-		return (1);
-	sort(&stack_a, &stack_b);	
-	ft_lstclear(&stack_a);
-	ft_lstclear(&stack_b);
-	return (0);
 }

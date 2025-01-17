@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*   push_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obouizi <obouizi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/29 17:52:48 by obouizi           #+#    #+#             */
-/*   Updated: 2024/12/05 20:49:35 by obouizi          ###   ########.fr       */
+/*   Created: 2025/01/17 10:11:51 by obouizi           #+#    #+#             */
+/*   Updated: 2025/01/17 10:15:35 by obouizi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "checker_bonus.h"
 
-int	ft_putstr(char *s)
+int handle_push(char *operation, t_list **stack_a, t_list **stack_b)
 {
-	int	count;
-
-	count = 0;
-	if (!s)
-		count += write(1, "(null)", 6);
-	else
-	{
-		while (*s)
-		{
-			count += write(1, s, 1);
-			s++;
-		}
-	}
-	return (count);
+    if (!ft_strcmp(operation, "pa\n"))
+    {
+        ft_push(stack_a, stack_b);
+        return (1);
+    }
+    else if (!ft_strcmp(operation, "pb\n"))
+    {
+        ft_push(stack_b, stack_a);
+        return (1);
+    }
+    else
+        return (0);
 }

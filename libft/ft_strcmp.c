@@ -1,33 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr.c                                        :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obouizi <obouizi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/29 18:03:26 by obouizi           #+#    #+#             */
-/*   Updated: 2024/12/05 20:49:26 by obouizi          ###   ########.fr       */
+/*   Created: 2025/01/16 20:06:17 by obouizi           #+#    #+#             */
+/*   Updated: 2025/01/16 21:13:42 by obouizi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "libft.h"
 
-int	ft_putnbr(int n)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	int	count;
+	int				i;
+	unsigned char	*u_s1;
+	unsigned char	*u_s2;
 
-	count = 0;
-	if (n == -2147483648)
-		return (write(1, "-2147483648", 11));
-	if (n < 0)
+	if (!s1 || !s2)
+		return (-1);
+	u_s1 = (unsigned char *) s1;
+	u_s2 = (unsigned char *) s2;
+	i = 0;
+	while ((u_s1[i] || u_s2[i]))
 	{
-		count += ft_putchar('-');
-		n = -n;
+		if (u_s1[i] != u_s2[i])
+			return (u_s1[i] - u_s2[i]);
+		i++;
 	}
-	if (n >= 10)
-	{
-		count += ft_putnbr(n / 10);
-	}
-	count += ft_putchar((n % 10) + '0');
-	return (count);
+	return (0);
 }

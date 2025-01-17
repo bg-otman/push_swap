@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libftprintf.h                                      :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obouizi <obouizi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/31 15:14:01 by obouizi           #+#    #+#             */
-/*   Updated: 2024/12/05 20:03:13 by obouizi          ###   ########.fr       */
+/*   Created: 2024/11/19 16:01:23 by obouizi           #+#    #+#             */
+/*   Updated: 2025/01/17 10:22:41 by obouizi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFTPRINTF_H
-# define LIBFTPRINTF_H
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
 # include <unistd.h>
-# include <stdarg.h>
+# include <stdlib.h>
+# include <limits.h>
+# include "../../libft/libft.h"
 
-int		ft_printf(const char *str, ...);
-int		check_specifier(char c, va_list args);
-int		ft_putchar(char c);
-int		ft_putnbr(int n);
-int		ft_putstr(char *s);
-int		ft_puthex(unsigned int nb, char *hex);
-int		ft_putadresse(unsigned long long nb);
-int		ft_putunsint(unsigned int nb);
-size_t	ft_strlen(const char *s);
-int		is_valid_specifier(char c);
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10000
+# endif
+
+char	*get_next_line(int fd);
+char	*get_last_line(char **buffer, ssize_t bytes_read);
+char	*allocate_line(char *buffer);
+int		check_newline(char *buffer);
+ssize_t	read_data(int fd, char **buffer);
+char	*allocate_and_free(char **buffer);
 
 #endif

@@ -1,16 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sort_three.c                                       :+:      :+:    :+:   */
+/*   small_sort.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obouizi <obouizi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 11:33:48 by obouizi           #+#    #+#             */
-/*   Updated: 2025/01/14 11:37:34 by obouizi          ###   ########.fr       */
+/*   Updated: 2025/01/16 11:50:36 by obouizi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+int get_min_element(t_list *stack)
+{
+	int min;
+	
+	min = stack->num;
+	stack = stack->next;
+	while (stack)
+	{
+		if ((stack->num) < min)
+			min = stack->num;
+		stack = stack->next;
+	}
+	return (min);
+}
 
 void sort_three(t_list **stack)
 {
@@ -24,3 +39,27 @@ void sort_three(t_list **stack)
 			reverse_rotate_a(stack);
 	}
 }
+
+void sort_five(t_list **stack_a, t_list **stack_b)
+{
+	int min;
+	int index;
+	
+	while (ft_lstsize(*stack_a) > 3)
+	{
+		min = get_min_element(*stack_a);
+		index = get_index(*stack_a, min);
+		if (index <= ft_lstsize(*stack_a) / 2)
+            while ((*stack_a)->num != min)
+                rotate_a(stack_a);
+        else
+            while ((*stack_a)->num != min)
+                reverse_rotate_a(stack_a);
+		
+        push_b(stack_b, stack_a);
+	}
+	sort_three(stack_a);
+	push_a(stack_a, stack_b);
+	push_a(stack_a, stack_b);
+}
+

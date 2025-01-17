@@ -6,13 +6,13 @@
 /*   By: obouizi <obouizi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:18:51 by obouizi           #+#    #+#             */
-/*   Updated: 2025/01/11 17:50:49 by obouizi          ###   ########.fr       */
+/*   Updated: 2025/01/16 15:56:29 by obouizi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void ft_swap(int *a, int *b)
+static void ft_swp(int *a, int *b)
 {
     int temp;
 
@@ -33,7 +33,7 @@ void sort_arr(int *arr, int size)
         while (j < size)
         {
             if (arr[i] > arr[j])
-                ft_swap(&arr[i], &arr[j]);
+                ft_swp(&arr[i], &arr[j]);
             j++;
         }
         i++;
